@@ -5,6 +5,7 @@ let clear = false;
 let firstType = true;
 let justPressedOperator = false;
 let justPressedEquals = false;
+const limit = 9;
 
 
 function addCalc(num1, num2){
@@ -64,6 +65,7 @@ equalsButton.addEventListener('click', () => pressEqualsButton())
 
 
 function pressEqualsButton(){
+    if(num1 !== null && num2 === null) return;
     justPressedEquals = true;
     solveEquation();
 }
@@ -92,6 +94,7 @@ function setDisplay(display){
     if(display === undefined || display === NaN){
         display = 0;
     }
+    if(String(display).length > limit){display='A LOT'}
     if(clear){
         displayScreen.textContent = `${display}`;
     }else if(clear === false && firstType === true){
@@ -135,6 +138,8 @@ function typeNumber(number){
         return;
     }else{
         if(operator !== null){
+            if(num2 === null){}
+            else if((num2+`${number}`).length > limit)return;
             if(justPressedOperator){
                 clearDisplay();
                 justPressedOperator = false;
@@ -145,6 +150,8 @@ function typeNumber(number){
                 num2 = num2 + `${number}`
             }
         }else{
+            if(num1 === null){}
+            else if((num1+`${number}`).length > limit)return;
             if(num1 === null){
                 num1 = `${number}`
             }else{
