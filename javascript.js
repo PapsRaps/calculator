@@ -2,6 +2,8 @@ let num1;
 let num2;
 let operator;
 
+
+
 function addCalc(num1, num2){
     return num1 + num2;
 }
@@ -31,6 +33,8 @@ function operate(num1, num2, operator){
     }
 }
 
+
+
 const clearButton = document.getElementById('C');
 clearButton.addEventListener('click',clearDisplay)
 
@@ -41,4 +45,18 @@ function clearDisplay(){
 function setDisplay(display){
     const displayScreen = document.querySelector('p')
     displayScreen.textContent = `${display}`;
+}
+
+const numButtons = [];
+for(let i=0;i<10;i++){
+    const button = document.getElementById(`${i}`)
+    button.addEventListener('click', () => typeNumber(i))
+    numButtons.push(button)
+}
+
+
+
+function typeNumber(number){
+    console.log(number)
+    setDisplay(number);
 }
