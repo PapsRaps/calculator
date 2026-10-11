@@ -94,7 +94,11 @@ function setDisplay(display){
     if(display === undefined || display === NaN){
         display = 0;
     }
-    if(String(display).length > limit){display='A LOT'}
+
+    display = Number(Number(display).toFixed(2))
+
+    if(String(display).length > limit){display='MADAMI'}
+
     if(clear){
         displayScreen.textContent = `${display}`;
     }else if(clear === false && firstType === true){
@@ -160,5 +164,48 @@ function typeNumber(number){
         }
         clear = false;
         setDisplay(number);
+    }
+}
+
+
+
+
+
+document.addEventListener('keydown', keyPress)
+
+function keyPress(event){
+    console.log(event.key)
+    switch(event.key){
+        case '0':
+        case '1':
+        case '2':
+        case '3':
+        case '4':
+        case '5':
+        case '6':
+        case '7':
+        case '8':
+        case '9':
+            typeNumber(event.key);
+            break;
+        case '+':
+            typeOperator('plus');
+            break;
+        case '-':
+            typeOperator('minus');
+            break;
+        case '*':
+        case 'x':
+            typeOperator('times');
+            break;
+        case '/':
+            typeOperator('divide');
+            break;
+        case 'Enter':
+            pressEqualsButton();
+            break;
+        case 'Backspace':
+            clearDisplay(true)
+            break;
     }
 }
