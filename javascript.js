@@ -1,7 +1,8 @@
-let num1;
-let num2;
-let operator;
-
+let num1 = null;
+let num2 = null;
+let operator = null;
+let clear = false;
+let firstType = true;
 
 
 function addCalc(num1, num2){
@@ -39,12 +40,24 @@ const clearButton = document.getElementById('C');
 clearButton.addEventListener('click',clearDisplay)
 
 function clearDisplay(){
+    num1 = null;
+    num2 = null;
+    operator = null;
+    clear = true;
+    firstType = true;
     setDisplay(0)
 }
 
 function setDisplay(display){
     const displayScreen = document.querySelector('p')
-    displayScreen.textContent = `${display}`;
+    if(clear){
+        displayScreen.textContent = `${display}`;
+    }else if(clear === false && firstType === true){
+        displayScreen.textContent = `${display}`;
+        firstType = false;
+    }else{
+        displayScreen.textContent = `${displayScreen.textContent}${display}`;
+    }
 }
 
 const numButtons = [];
@@ -54,9 +67,7 @@ for(let i=0;i<10;i++){
     numButtons.push(button)
 }
 
-
-
 function typeNumber(number){
-    console.log(number)
+    clear = false;
     setDisplay(number);
 }
