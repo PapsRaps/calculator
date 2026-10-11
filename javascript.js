@@ -25,21 +25,18 @@ function divideCalc(num1, num2){
 function operate(num1, num2, operator){
     switch (operator){
         case 'multiply':
-            setDisplay(multiplyCalc(num1, num2));
-            break;
+            return multiplyCalc(num1, num2);
         case 'add':
-            setDisplay(addCalc(num1, num2));
-            break;
+            return addCalc(num1, num2);
         case 'subtract':
-            setDisplay(subtractCalc(num1, num2));
-            break;
+            return subtractCalc(num1, num2);
         case 'divide':
-            setDisplay(divideCalc(num1, num2));
-            break;
+            return divideCalc(num1, num2);
     }
 }
 
 
+const displayScreen = document.querySelector('p')
 
 const clearButton = document.getElementById('C');
 clearButton.addEventListener('click',() => clearDisplay(true))
@@ -67,8 +64,9 @@ equalsButton.addEventListener('click', () => pressEqualsButton())
 
 function pressEqualsButton(){
     clearDisplay();
-    operate(num1, num2, operator);
-    num1 = null;
+    let result = operate(num1, num2, operator);
+    setDisplay(result);
+    num1 = result;
     num2 = null;
     operator = null;
 }
@@ -85,7 +83,6 @@ function clearDisplay(buttonPress){
 }
 
 function setDisplay(display){
-    const displayScreen = document.querySelector('p')
     if(clear){
         displayScreen.textContent = `${display}`;
     }else if(clear === false && firstType === true){
@@ -116,23 +113,27 @@ function typeOperator(currentOperator){
 }
 
 function typeNumber(number){
-    if(operator !== null){
-        if(justPressedOperator){
-            clearDisplay();
-            justPressedOperator = false;
-        }
-        if(num2 === null){
-            num2 = `${number}`
-        }else{
-            num2 = num2 + `${number}`
-        }
+    if(displayScreen.textContent === '0' && number === 0){
+        return;
     }else{
-        if(num1 === null){
-            num1 = `${number}`
+        if(operator !== null){
+            if(justPressedOperator){
+                clearDisplay();
+                justPressedOperator = false;
+            }
+            if(num2 === null){
+                num2 = `${number}`
+            }else{
+                num2 = num2 + `${number}`
+            }
         }else{
-            num1 = num1 + `${number}`
+            if(num1 === null){
+                num1 = `${number}`
+            }else{
+                num1 = num1 + `${number}`
+            }
         }
+        clear = false;
+        setDisplay(number);
     }
-    clear = false;
-    setDisplay(number);
 }
