@@ -3,13 +3,12 @@ body{
     box-sizing: content-box;
     display: flex;
     justify-content: center;
-
 }
 
 #calculatorBody{
     max-width: 50vh;
     width: 90%;
-    min-height: 55vh;
+    min-height: 60vh;
     background-color: #616268;
     border-radius: 40px;
     display: flex;

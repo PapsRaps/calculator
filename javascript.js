@@ -31,4 +31,14 @@ function operate(num1, num2, operator){
     }
 }
 
-console.log(operate(2,3, 'multiply'))
+const clearButton = document.getElementById('C');
+clearButton.addEventListener('click',clearDisplay)
+
+function clearDisplay(){
+    setDisplay(0)
+}
+
+function setDisplay(display){
+    const displayScreen = document.querySelector('p')
+    displayScreen.textContent = `${display}`;
+}
