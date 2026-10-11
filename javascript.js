@@ -63,6 +63,9 @@ divideButton.addEventListener('click', () => typeOperator('divide'))
 const equalsButton = document.getElementById('=')
 equalsButton.addEventListener('click', () => pressEqualsButton())
 
+const dotButton = document.getElementById(`.`)
+dotButton.addEventListener('click', () => typeNumber('.'))
+
 
 function pressEqualsButton(){
     if(num1 !== null && num2 === null) return;
@@ -74,7 +77,7 @@ function solveEquation(){
     clearDisplay();
     let result = operate(num1, num2, operator);
     setDisplay(result);
-    num1 = result;
+    num1 = String(result);
     num2 = null;
     operator = null;
 }
@@ -91,13 +94,15 @@ function clearDisplay(buttonPress){
 }
 
 function setDisplay(display){
-    if(display === undefined || display === NaN){
-        display = 0;
-    }
+    if(display === undefined || display === NaN)display = 0;
 
-    display = Number(Number(display).toFixed(2))
+    if(display !== '.') display = Number(Number(display).toFixed(2))
 
     if(String(display).length > limit){display='MADAMI'}
+
+    if(display === Infinity) display = 'Luh?'
+
+    if(display === 2011) display = '❤️❤️❤️'
 
     if(clear){
         displayScreen.textContent = `${display}`;
@@ -138,28 +143,33 @@ function typeNumber(number){
         justPressedEquals = false;
     }
 
-    if(displayScreen.textContent === '0' && number === 0){
+    number = String(number)
+    display = displayScreen.textContent
+
+    if(display === '0' && (number === '0')){
         return;
     }else{
+        if(number === '.' && display.split('').some(char=>char==='.')) return;
+
         if(operator !== null){
             if(num2 === null){}
-            else if((num2+`${number}`).length > limit)return;
+            else if((num2+number).length > limit)return;
             if(justPressedOperator){
                 clearDisplay();
                 justPressedOperator = false;
             }
             if(num2 === null){
-                num2 = `${number}`
+                num2 = number
             }else{
-                num2 = num2 + `${number}`
+                num2 = num2 + number
             }
         }else{
             if(num1 === null){}
-            else if((num1+`${number}`).length > limit)return;
+            else if((num1+number).length > limit)return;
             if(num1 === null){
-                num1 = `${number}`
+                num1 = number
             }else{
-                num1 = num1 + `${number}`
+                num1 = num1 + number
             }
         }
         clear = false;
