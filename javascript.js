@@ -4,6 +4,7 @@ let operator = null;
 let clear = false;
 let firstType = true;
 let justPressedOperator = false;
+let justPressedEquals = false;
 
 
 function addCalc(num1, num2){
@@ -63,6 +64,11 @@ equalsButton.addEventListener('click', () => pressEqualsButton())
 
 
 function pressEqualsButton(){
+    justPressedEquals = true;
+    solveEquation();
+}
+
+function solveEquation(){
     clearDisplay();
     let result = operate(num1, num2, operator);
     setDisplay(result);
@@ -83,6 +89,9 @@ function clearDisplay(buttonPress){
 }
 
 function setDisplay(display){
+    if(display === undefined || display === NaN){
+        display = 0;
+    }
     if(clear){
         displayScreen.textContent = `${display}`;
     }else if(clear === false && firstType === true){
@@ -95,6 +104,10 @@ function setDisplay(display){
 
 function typeOperator(currentOperator){
     justPressedOperator = true;
+    justPressedEquals = false;
+
+    if(operator !== null && num2 !== null) solveEquation();;
+
     switch (currentOperator){
         case 'plus':
             operator = 'add'
@@ -109,10 +122,15 @@ function typeOperator(currentOperator){
             operator = 'divide'
             break;
     }
-
 }
 
 function typeNumber(number){
+    if(justPressedEquals){
+        num1 = null;
+        num2 = null;
+        justPressedEquals = false;
+    }
+
     if(displayScreen.textContent === '0' && number === 0){
         return;
     }else{
